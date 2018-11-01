@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+<title>寒站</title>
+
+<link rel="stylesheet" media="all"
+	href="/res/css/web.css">
+
+<link rel="stylesheet" media="all"
+	href="/res/css/entry-profile.css">
+</head>
+
+<body lang="zh-CN" class="reader-black-font" style="overflow-y: scroll;">
+	<!-- 全局顶部导航栏 -->
+   <nav  th:replace="~{common::nav}" class="navbar navbar-default navbar-fixed-top" role="navigation">
+   </nav>
+
+
+
+	<div class="container person">
+		<div class="row">
+			<div class="col-xs-16 main">
+				<div class="main-top">
+					<a class="avatar"  th:href="@{/profile/users/{id}(user.userId)}">
+						<img
+						th:src="@{/profile/avatar/{id}(id=${user.userId},size=240)}"
+						alt="240">
+					</a>
+					
+					<button  th:if="${!isSelf}" th:class="${isFollowed}?'on  user-follow-button followed':'off  user-follow-button'">
+					   <i class="iconfont"></i>
+					   <span th:text="${isFollowed}?'已关注':'关注'"></span>
+					</button>
+
+					<div class="title">
+						<a class="name" href="#" th:text="${user.displayName}">你才是小白</a>
+					</div>
+					<div class="info">
+						<ul>
+							<li>
+								<div class="meta-block">
+									<a href="/following">
+										<p th:text="${following}">10</p> 关注 <i class="iconfont ic-arrow"></i>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div class="meta-block">
+									<a href="/followers">
+										<p th:text="${followers}">0</p> 粉丝 <i class="iconfont ic-arrow"></i>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div class="meta-block">
+									<a href="#">
+										<p th:text="${articleNum}">1</p> 文章 <i class="iconfont ic-arrow"></i>
+									</a>
+								</div>
+							</li>
+							
+							<li>
+								<div class="meta-block">
+									<p>0</p>
+									<div>收获喜欢</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div id="outer-container">
+					<ul class="trigger-menu" data-pjax-container="#list-container">
+						<li class="active"><a
+							href=""><i
+								class="iconfont ic-articles"></i> 文章</a></li>
+						<li class=""><a
+							href=""><i
+								class="iconfont ic-feed"></i> 动态</a></li>
+						<li class=""><a
+							href=""><i
+								class="iconfont ic-latestcomments"></i> 最新评论</a></li>
+						<li class=""><a
+							href=""><i
+								class="iconfont ic-hot"></i> 热门</a></li>
+					</ul>
+
+					<div id="list-container">
+						<!-- 文章列表模块 -->
+						<ul class="note-list"  >
+							<li  th:each="article:${articlePage}"  class="">
+								<div class="content">
+									<div class="author">
+										<a class="avatar" target="_blank"
+											href=""> <img
+											th:src="@{/profile/avatar/{id}(id=${article.userId},size=64)}"
+											alt="64">
+										</a>
+										<div class="info">
+											<a class="nickname" target="_blank"
+												href="@{/profile/users/{userId}(userId=${article.userId})}" th:text="${article.displayName}" >你才是小白</a> <span
+												class="time" data-shared-at="2018-03-12T08:16:08+08:00" th:text="${article.updateDate}">几秒前</span>
+										</div>
+									</div>
+									<a class="title" target="_blank"
+										th:href="@{/article/detail/{id}(id=${article.articleId})}"  th:text="${article.articleTitle}">关于themleaf的使用</a>
+									<p class="abstract" th:text="${article.summary}">浏览器忽略一切不能够识别的属性 例如 th:text="xxxx"
+										,这样的属性浏览器会忽略，对于html5的标准属性写法 也是支持的 属性只需要 data-开头 例如 ：d...</p>
+									<div class="meta">
+
+										<a target="_blank"
+											href="#"> <i
+											class="iconfont ic-list-read"></i> 0
+										</a> <a target="_blank"
+											href="#"> <i
+											class="iconfont ic-list-comments"></i> 0
+										</a> <span><i class="iconfont ic-list-like"></i> 0</span>
+									</div>
+								</div>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-7 col-xs-offset-1 aside">
+				<div class="title">个性签名</div>
+				 
+				 <div class="description">
+                 <div class="js-intro" style="display: block;" th:text="${user.signature}"></div>
+               </div>
+				<div id="user-publications">
+					<!---->
+				</div>
+				<div id="user-courses">
+					<!---->
+				</div>
+				<ul class="list user-dynamic">
+					<li><a
+						href="/subscriptions">
+							<i class="iconfont ic-collection"></i> <span>我关注的专题/文集/连载</span>
+					</a></li>
+					<li><a
+						href="/liked_notes">
+							<i class="iconfont ic-like"></i> <span>我喜欢的文章</span>
+					</a></li>
+				</ul>
+				<!-- 专题和文集 -->
+				<div>
+					<div>
+						<!---->
+						<div class="title">我创建的专题</div>
+						<div class="new-collection-block">
+							<a href="/collections/new"
+								class="new-collection-btn"><i class="iconfont ic-follow"></i><span>创建一个新专题</span></a>
+						</div>
+					</div>
+					<!---->
+					<div>
+						<div class="title">我的文集</div>
+						<ul class="list">
+							<li><a href="/nb/22524011"
+								target="_blank"><i class="iconfont ic-search-notebook"></i></a>
+								<a href="nb/22524011" target="_blank"
+								class="name"> 随笔 <!----></a></li>
+							<li>
+								
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+ <script type="text/javascript" src="/res/libs/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/res/js/common.js"></script>
+</html>

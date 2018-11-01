@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <title>寒站</title>
+    <link rel="stylesheet" media="all" href="/res/css/web.css">
+    <link rel="stylesheet" media="all" href="/res/css/entry-setting.css">
+    <link rel="stylesheet" media="all" href="/res/libs/toastr-2.1.1/build/toastr.min.css">
+</head>
+
+<body lang="zh-CN" class="reader-black-font" style="overflow-y: scroll;">
+<!-- 全局顶部导航栏 -->
+<nav th:replace="~{common::nav}"
+     class="navbar navbar-default navbar-fixed-top" role="navigation">
+</nav>
+
+<div class="container setting">
+    <div class="row">
+        <div class="aside">
+            <ul>
+                <li class="router-link-exact-active active"><a
+                        href="javascript:void(0)" class="menu" data-target="base">
+                    <div class="setting-icon">
+                        <i class="iconfont ic-settings-basic"></i>
+                    </div>
+                    <span>基础设置</span>
+                </a></li>
+                <li class=""><a
+                        href="javascript:void(0)" class="menu" data-target="information">
+                    <div class="setting-icon">
+                        <i class="iconfont ic-settings-profile"></i>
+                    </div>
+                    <span>个人资料</span>
+                </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-16 col-xs-offset-8 main">
+
+            <table>
+                <thead>
+                <tr>
+                    <th class="setting-head responsive-head"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody class="base">
+                <tr>
+                    <td class="top-line">
+                        <div class="avatar">
+                            <img
+                                    th:src="@{/profile/avatar/{id}(id=${session.cuser.userId},size=600)}">
+                        </div>
+                    </td>
+                    <td class="top-line"><a class="btn btn-hollow">
+                        <input
+                                unselectable="on" id="fileupload" type="file" name="file" class="hide"> 更改头像 </a></td>
+
+                </tr>
+                <tr>
+                    <td class="setting-title">昵称</td>
+                    <td><span th:text="${session.cuser.displayName}">你才是小白</span>
+                        <p>由于特殊系统维护，您现在无法修改昵称。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="setting-title">电子邮件</td>
+                    <td class="setted">
+                        <div th:text="${session.cuser.email}"></div>
+                        <i
+                                class="iconfont ic-collections-followed"></i> <span>已验证</span> <a
+                            class="cancel-bind">解除绑定</a></td>
+                    <!-- <td><button class="btn btn-hollow">点击绑定</button></td> -->
+                </tr>
+                <tr>
+                    <td class="setting-title">手机</td>
+                    <td class="setted" th:if="${session.cuser.mobile}">
+                        <div th:text="${session.cuser.mobile}">156****8646</div>
+                        <i
+                                class="iconfont ic-collections-followed"></i> <span>已验证</span> <a
+                            class="cancel-bind">解除绑定</a></td>
+                    <td th:unless="${session.cuser.mobile}">
+                        <button class="btn btn-hollow">点击绑定</button>
+                    </td>
+                </tr>
+                </tbody>
+
+                <tbody class="information" style="display: none">
+                <tr>
+                    <td class="top-line setting-title setting-verticle">性别</td>
+                    <td class="top-line"><input type="radio" name="sex" value="1" th:checked="${user.sex=='1'}">
+                        <span>男</span> <input type="radio" name="sex" value="2" th:checked="${user.sex=='2'}">
+                        <span>女</span>
+                        <input type="radio" name="sex" value="0" th:checked="${user.sex=='0'}"> <span>保密</span></td>
+                </tr>
+                <tr>
+                    <td class="setting-title pull-left">个性签名</td>
+                    <td>
+                        <form>
+                            <textarea placeholder="不是每一种牛奶都叫特仑苏" name="signature"
+                                      th:text="${user.signature}"></textarea>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="setting-title pull-left setting-input">个人网站</td>
+                    <td>
+                        <form>
+                            <input type="text" name="website" placeholder="http://你的网址" th:value="${user.website}">
+                            <p class="pull-right">填写后会在个人主页显示图标</p>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><input type="button" id="saveBtn" class="btn btn-success setting-save" value="保存"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/res/libs/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/res/libs/layer/layer.js"></script>
+<script type="text/javascript" src="/res/libs/toastr-2.1.1/build/toastr.min.js"></script>
+<script type="text/javascript" src="/res/js/common.js"></script>
+<script src="/res/libs/jQuery-File-Upload-9.21.0/js/vendor/jquery.ui.widget.js"></script>
+<script src="/res/libs/jQuery-File-Upload-9.21.0/js/jquery.iframe-transport.js"></script>
+<script src="/res/libs/jQuery-File-Upload-9.21.0/js/jquery.fileupload.js"></script>
+<script type="text/javascript">
+    $('#fileupload').fileupload({
+        url: "/profile/avatar/upload",
+        dataType: 'json',
+        done: function (e, data) {
+            // window.location.reload();
+        },
+        formData: function () {
+            return [];
+        },
+        progressall: function (e, data) {
+
+        }
+    })
+    $(function () {
+
+        $(".menu").click(function () {
+            $(".menu").parent().removeClass("router-link-exact-active active");
+            $(this).parent("li").addClass("router-link-exact-active active");
+            var target = $(this).attr("data-target");
+            $("table tbody").hide();
+            $("table tbody." + target).show();
+        });
+
+
+        $("#saveBtn").click(function () {
+            var data = {
+                sex: $(".information :checked").val(),
+                signature: $(".information [name='signature']").val(),
+                website: $(".information [name='website']").val()
+            }
+            doAjax({
+                url: "/profile/update",
+                data: data,
+                success: function () {
+                    toastr.success("保存成功")
+                }
+            })
+        });
+    });
+
+</script>
+</html>

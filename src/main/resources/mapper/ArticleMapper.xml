@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.ArticlePO">
+    <id column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+    <result column="article_tag" jdbcType="VARCHAR" property="articleTag" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="article_keyword" jdbcType="VARCHAR" property="articleKeyword" />
+    <result column="favour_num" jdbcType="INTEGER" property="favourNum" />
+    <result column="read_num" jdbcType="INTEGER" property="readNum" />
+    <result column="support_num" jdbcType="INTEGER" property="supportNum" />
+    <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
+    <result column="oppose_num" jdbcType="INTEGER" property="opposeNum" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    article_id, author, create_date, update_date, article_tag, content, article_title, 
+    article_keyword, favour_num, read_num, support_num, comment_num, oppose_num, status, 
+    summary
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from article
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.ArticlePO">
+    insert into article (article_id, author, create_date, 
+      update_date, article_tag, content, 
+      article_title, article_keyword, favour_num, 
+      read_num, support_num, comment_num, 
+      oppose_num, status, summary
+      )
+    values (#{articleId,jdbcType=BIGINT}, #{author,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=VARCHAR}, #{articleTag,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{articleTitle,jdbcType=VARCHAR}, #{articleKeyword,jdbcType=VARCHAR}, #{favourNum,jdbcType=INTEGER}, 
+      #{readNum,jdbcType=INTEGER}, #{supportNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, 
+      #{opposeNum,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.ArticlePO">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="articleTag != null">
+        article_tag,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="articleTitle != null">
+        article_title,
+      </if>
+      <if test="articleKeyword != null">
+        article_keyword,
+      </if>
+      <if test="favourNum != null">
+        favour_num,
+      </if>
+      <if test="readNum != null">
+        read_num,
+      </if>
+      <if test="supportNum != null">
+        support_num,
+      </if>
+      <if test="commentNum != null">
+        comment_num,
+      </if>
+      <if test="opposeNum != null">
+        oppose_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTag != null">
+        #{articleTag,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTitle != null">
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleKeyword != null">
+        #{articleKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="favourNum != null">
+        #{favourNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null">
+        #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="supportNum != null">
+        #{supportNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null">
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="opposeNum != null">
+        #{opposeNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.ArticlePO">
+    update article
+    <set>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTag != null">
+        article_tag = #{articleTag,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTitle != null">
+        article_title = #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleKeyword != null">
+        article_keyword = #{articleKeyword,jdbcType=VARCHAR},
+      </if>
+      <if test="favourNum != null">
+        favour_num = #{favourNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null">
+        read_num = #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="supportNum != null">
+        support_num = #{supportNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null">
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="opposeNum != null">
+        oppose_num = #{opposeNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.ArticlePO">
+    update article
+    set author = #{author,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      article_tag = #{articleTag,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      article_title = #{articleTitle,jdbcType=VARCHAR},
+      article_keyword = #{articleKeyword,jdbcType=VARCHAR},
+      favour_num = #{favourNum,jdbcType=INTEGER},
+      read_num = #{readNum,jdbcType=INTEGER},
+      support_num = #{supportNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      oppose_num = #{opposeNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR}
+    where article_id = #{articleId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="listArticle" resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from article
+    <where>
+        <if test="queryForm.content!=null and queryForm.content!=''">
+            content like CONCAT('%', #{queryForm.content,jdbcType=VARCHAR},'%') 
+        </if>
+        <if test="queryForm.author!=null and queryForm.author!=''">
+            author = #{queryForm.author,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  
+  <select id="countByAuthor" resultType="int">
+     select 
+    count(*)
+    from article
+    where author = #{author,jdbcType=VARCHAR}
+  </select>
+</mapper>

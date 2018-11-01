@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>寒站</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" media="all" href="/res/css/web.css">
+  <link rel="stylesheet" media="all" href="/res/css/entry.css">
+  <link rel="stylesheet" media="all" href="/lte/dist/css/AdminLTE.css">
+</head>
+<body lang="zh-CN" class="reader-black-font">
+
+<!-- 导航模块 -->
+ <nav th:replace="~{common::nav}" class="navbar navbar-default navbar-fixed-top" role="navigation">
+ </nav>
+
+<div class="container index">
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-md-24">
+      
+      <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">新文章</h3>
+          </div>
+          <!-- /.box-header -->
+          <!-- form start -->
+          <form action="/article/save" id="articleForm" method="post">
+            <div class="box-body">
+                  <div class="form-group">
+              <input class="form-control" name="articleTitle" placeholder="标题">
+            </div>
+            <div class="form-group">
+              <textarea rows="4" cols="20" class="form-control" name="summary" placeholder="摘要"></textarea> 
+            </div>
+            <div class="form-group">
+                <input name="content" type="hidden">  
+                <div id="editor"></div>
+            </div>
+            <div class="form-group">
+              <div class="btn btn-default btn-file">
+                <i class="fa fa-paperclip"></i> 上传附件
+                <input type="file" name="attachment">
+              </div>
+              <p class="help-block">最大. 32MB</p>
+            </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+              <button type="button" data-action="save" class="btn btn-primary pull-right " style="margin-left: 20px;">保存</button>
+              <button type="button" data-action="publish" class="btn btn-success pull-right">发布</button>
+            </div>
+            <!-- /.box-footer -->
+          </form>
+        </div>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="/res/libs/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/res/js/common.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/res/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="/res/libs/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+ <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+<script type="text/javascript" src="/res/libs/wangEditor-3.0.16/release/wangEditor.min.js"></script>
+    <script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 配置图片上传
+    editor.customConfig.uploadImgServer = '/attachment/editor/upload'  // 上传图片到服务器
+    editor.customConfig.uploadFileName = 'file'
+    editor.create()
+        $(function(){
+        	  //发布 或者保存
+        	  $('[data-action="publish"]').click(function(){
+        		   
+        		   var html=editor.txt.html();
+        		   var text=editor.txt.text();
+        		   console.log(text);
+        		   
+        		   $(":input[name='content']").val(html);
+        		  
+        		   $("#articleForm").submit();
+              });
+        });
+    </script>
+</body>
+</html>
+

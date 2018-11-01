@@ -1,0 +1,65 @@
+<div>
+	<div>
+		<div class="top-title">
+			<span><span th:text=${#lists.size(commentList)}></span> 条评论</span>
+		</div>
+	</div>
+
+	<div id="${item.commentId}" class="comment"
+		th:each="item:${commentList}">
+		<div>
+			<div class="author">
+				<div class="v-tooltip-container" style="z-index: 0;">
+					<div class="v-tooltip-content">
+						<a th:href="@{/profile/users/{id}(id=${item.creator})}"
+							target="_blank" class="avatar"> <img
+							th:src="@{/profile/avatar/{id}(id=${item.creator},size=114)}"></a>
+					</div>
+					<!---->
+				</div>
+				<div class="info">
+					<a th:href="@{/profile/users/{id}(id=${item.creator})}"
+						target="_blank" class="name" th:text="${item.displayName}">你才是小白</a>
+					<!---->
+					<div class="meta">
+						<span th:text="${item.createDate}">2楼 · 2018.03.26 20:15</span>
+					</div>
+				</div>
+			</div>
+			<div class="comment-wrap">
+				<p th:text="${item.content}">写的像是流水账 么有自己的个人见解</p>
+				<div class="tool-group">
+					<a data-v-cdecbe24="" id="like-button-22090204" class="like-button"><span
+						data-v-cdecbe24="">赞</span></a> <a class="addComment"><i
+						class="iconfont ic-comment"></i> <span>回复</span></a>
+					<a class="comment-delete"><span>删除</span></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="sub-comment-list hide">
+			 <div class="sub-comment" th:each="subItem:${item.subCommentList}">
+				<p>
+				<div class="v-tooltip-container" style="z-index: 0;">
+					<div class="v-tooltip-content">
+						<a href="/u/d277d10a229c" target="_blank">你才是小白</a>：
+					</div>
+				</div>
+				<span>jiushi</span>
+				</p>
+				<div class="sub-tool-group">
+					<span>2018.03.31 15:10</span> <a class=""><i
+						class="iconfont ic-comment"></i> <span>回复</span></a>
+					<!---->
+					<a class="subcomment-delete"><span>删除</span></a>
+				</div>
+			</div>
+			
+			<div class="sub-comment more-comment hide">
+				<a class="add-comment-btn"><i class="iconfont ic-subcomment"></i>
+					<span>添加新评论</span></a>
+			</div>
+		</div>
+	</div>
+
+</div>

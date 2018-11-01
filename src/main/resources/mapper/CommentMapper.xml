@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.CommentPO">
+    <id column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="ref_id" jdbcType="BIGINT" property="refId" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, ref_id, article_id, content, creator, create_date, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from comment
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.CommentPO">
+    insert into comment (comment_id, ref_id, article_id, 
+      content, creator, create_date, 
+      status)
+    values (#{commentId,jdbcType=BIGINT}, #{refId,jdbcType=BIGINT}, #{articleId,jdbcType=BIGINT}, 
+      #{content,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.CommentPO">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="refId != null">
+        ref_id,
+      </if>
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="refId != null">
+        #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.CommentPO">
+    update comment
+    <set>
+      <if test="refId != null">
+        ref_id = #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.CommentPO">
+    update comment
+    set ref_id = #{refId,jdbcType=BIGINT},
+      article_id = #{articleId,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  
+  
+  <resultMap id="withUserResultMap" type="com.hanmlet.myblog.dto.CommentDTO">
+    <id column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="ref_id" jdbcType="BIGINT" property="refId" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
+  </resultMap>
+  <sql id="withUser_Column_List">
+    c.comment_id, c.ref_id, c.article_id, c.content, c.creator, c.create_date, c.status,u.display_name
+  </sql>
+  
+  
+  <select id="listCommentPg" resultMap="withUserResultMap">
+      select 
+     <include refid="withUser_Column_List" />  
+     from comment c,user_info u 
+    <where>
+       c.creator=u.user_id
+      <if test="refId != null">
+       and c.ref_id = #{refId,jdbcType=BIGINT}
+      </if>
+      <if test="articleId != null">
+       and c.article_id = #{articleId,jdbcType=BIGINT}
+      </if>
+      <if test="status != null">
+       and c.status = #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+     
+  </select>
+</mapper>

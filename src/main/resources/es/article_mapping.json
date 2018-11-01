@@ -1,0 +1,58 @@
+{
+  "properties": {
+    "articleId": {
+      "type": "long"
+    },
+    "author": {
+      "type": "keyword"
+    },
+    "createDate": {
+      "type": "keyword"
+    },
+    "updateDate": {
+      "type": "keyword"
+    },
+    "articleTag": {
+      "type": "keyword"
+    },
+    "content": {
+      "type": "text",
+      "analyzer": "ik_filter_word",
+      "search_analyzer": "ik_smart"
+    },
+    "articleTitle": {
+      "type": "text",
+      "analyzer": "ik_filter_word",
+      "search_analyzer": "ik_smart"
+    },
+    "articleKeyword": {
+      "type": "text",
+      "analyzer": "ik_filter_word",
+      "search_analyzer": "ik_smart"
+    },
+
+    "favourNum": {
+      "type": "long"
+    },
+    "readNum":{
+      "type": "long"
+    },
+    "supportNum": {
+      "type": "long"
+    },
+    "commentNum":{
+      "type": "long"
+    },
+    "opposeNum": {
+      "type": "long"
+    },
+    "status":{
+      "type": "keyword"
+    },
+    "summary": {
+      "type": "text",
+      "analyzer": "ik_filter_word",
+      "search_analyzer": "ik_smart"
+    }
+  }
+}

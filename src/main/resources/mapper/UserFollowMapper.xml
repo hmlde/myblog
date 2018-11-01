@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.UserFollowMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.UserFollowPO">
+    <id column="follow_id" jdbcType="BIGINT" property="followId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="follower_id" jdbcType="VARCHAR" property="followerId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    follow_id, user_id, follower_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_follow
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.UserFollowPO">
+    insert into user_follow (follow_id, user_id, follower_id
+      )
+    values (#{followId,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{followerId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.UserFollowPO">
+    insert into user_follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        follow_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="followerId != null">
+        follower_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followId != null">
+        #{followId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="followerId != null">
+        #{followerId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.UserFollowPO">
+    update user_follow
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="followerId != null">
+        follower_id = #{followerId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.UserFollowPO">
+    update user_follow
+    set user_id = #{userId,jdbcType=VARCHAR},
+      follower_id = #{followerId,jdbcType=VARCHAR}
+    where follow_id = #{followId,jdbcType=BIGINT}
+  </update>
+  
+  <!-- countByUserId -->
+  <select id="countByUserId" resultType="int">
+     select count(*) from user_follow where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countByFollowerId" resultType="int">
+     select count(*) from user_follow where follower_id = #{followerId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="listByUserId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_follow
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="listByFollowerId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_follow
+    where follower_id = #{followerId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectFollow"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_follow
+    where follower_id = #{followerId,jdbcType=VARCHAR}
+    and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>

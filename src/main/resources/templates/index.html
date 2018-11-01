@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://localhost/">
+  <!-- End of Baidu Transcode -->
+  <title>寒站</title>
+  <meta name="csrf-param" content="authenticity_token">
+  <link rel="stylesheet" media="all" href="/res/css/web.css">
+  <link rel="stylesheet" media="all" href="/res/css/entry.css">
+</head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+   <nav  th:replace="~{common::nav}" class="navbar navbar-default navbar-fixed-top" role="navigation">
+   </nav>
+
+    
+<div class="container index">
+  <div class="row">
+    <div class="col-xs-16 main">
+      <div class="split-line"></div>
+      <div id="list-container">
+        <!-- 文章列表模块 -->
+        <ul class="note-list">
+        
+          <li  th:each="article:${articlePage}"  th:id="${article.articleId}" class="have-img">
+  <div class="content">
+    <div class="author">
+        <a class="avatar" target="_blank" th:href="@{/profile/users/{userId}(userId=${article.userId})}">
+        <img th:src="@{/profile/avatar/{id}(id=${article.userId},size=64)}" alt="64">
+       </a>      <div class="info">
+        <a class="nickname" target="_blank" th:href="@{/profile/users/{userId}(userId=${article.userId})}" th:text="${article.displayName}"></a>
+        <span class="time"  th:text="${article.updateDate}">昨天 07:01</span>
+      </div>
+    </div>
+    <a class="title" target="_blank" th:href="@{/article/detail/{id}(id=${article.articleId})}" th:text="${article.articleTitle}">期待春天</a>
+    <p class="abstract" th:text="${article.summary}">
+       摘要
+    </p>
+    <div class="meta">
+
+        <a class="collection-tag" target="_blank" href="#" th:text="${article.articleTag}">java</a>
+         <a target="_blank" href="#">
+         <i class="iconfont ic-list-read"></i>70
+         </a>        <a target="_blank" href="#">
+          <i class="iconfont ic-list-comments"></i> 29
+</a>      <span><i class="iconfont ic-list-like"></i> 35</span>
+        <span><i class="iconfont ic-list-money"></i> 1</span>
+    </div>
+  </div>
+</li>
+
+</ul>
+        <!-- 文章列表模块 -->
+      </div>
+       <!--  <a data-page="3" href="#" class="load-more">阅读更多</a> -->
+    </div>
+    
+    
+    
+    <div class="col-xs-7 col-xs-offset-1 aside">
+    
+          
+    </div>
+  </div>
+</div>
+<div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <!----></ul></div>
+
+<footer th:replace="~{common::footer}" class="container">
+</footer>
+</body>
+    <script type="text/javascript" src="/res/libs/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/res/js/common.js"></script>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale}">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://localhost/">
+  <!-- End of Baidu Transcode -->
+  <title>简书 - 创作你的创作</title>
+  <meta name="csrf-param" content="authenticity_token">
+  <link rel="stylesheet" media="all" href="/res/css/web.css">
+  <link rel="stylesheet" media="all" href="/res/css/entry.css">
+</head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+   <nav  th:replace="~{common::nav}" class="navbar navbar-default navbar-fixed-top" role="navigation">
+   </nav>
+
+    
+<div class="container index">
+  <div class="row">
+    <div class="col-xs-16 main">
+      <!-- Banner -->
+          <div id="indexCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="item active">
+                  <div class="banner" data-banner-name="稿事计划2.0">
+                    <a target="_blank" href="https://www.jianshu.com/p/83c38ad085fa?utm_medium=index-banner&amp;utm_source=desktop"><img src="/res/images/9c7f4eeb034da551e20131cc9a998eff61fce4d3.jpg" alt="540"></a>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="banner" data-banner-name=" 时光少女节">
+                    <a target="_blank" href="https://www.jianshu.com/p/ff03e0bd13cd?utm_medium=index-banner&amp;utm_source=desktop"><img src="/res/images/e2a5b8d7f89e4fd769f23f56494296329030550d.jpg" alt="540"></a>
+                  </div>
+                </div>
+            </div>
+              <ol class="carousel-indicators">
+                  <li data-target="#indexCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#indexCarousel" data-slide-to="1" class=""></li>
+              </ol>
+              <a class="left carousel-control" href="https://www.jianshu.com/#indexCarousel" role="button" data-slide="prev"><i class="iconfont ic-previous-s"></i></a>
+              <a class="right carousel-control" href="https://www.jianshu.com/#indexCarousel" role="button" data-slide="next"><i class="iconfont ic-next-s"></i></a>
+          </div>
+      <div class="split-line"></div>
+      <div id="list-container">
+        <!-- 文章列表模块 -->
+        <ul class="note-list" infinite-scroll-url="/">
+        
+          <li  th:each="article:${articlePage}"  th:id="${article.articleId}" class="have-img">
+    <a class="wrap-img" th:href="@{/article/detail/${article.articleId}}" target="_blank">
+      <img class="  img-blur-done" src="/res/images/10157465-ca7c9dc1b0b304c6.png" alt="120">
+    </a>
+  <div class="content">
+    <div class="author">
+        <a class="avatar" target="_blank" href="/profile/init">
+        <img th:src="@{/profile/avatar/{id}(id=${article.userId},size=64)}" alt="64">
+       </a>      <div class="info">
+        <a class="nickname" target="_blank" href="/profile/init" th:text="${article.displayName}"></a>
+        <span class="time"  th:text="${article.updateDate}">昨天 07:01</span>
+      </div>
+    </div>
+    <a class="title" target="_blank" th:href="@{/article/detail/{id}(id=${article.articleId})}" th:text="${article.articleTitle}">期待春天</a>
+    <p class="abstract" th:text="${article.summary}">
+       摘要
+    </p>
+    <div class="meta">
+
+        <a class="collection-tag" target="_blank" href="https://www.jianshu.com/c/c20a34abac35" th:text="${article.articleTag}">java</a>
+         <a target="_blank" href="https://www.jianshu.com/p/41e014f09117">
+         <i class="iconfont ic-list-read"></i>70
+         </a>        <a target="_blank" href="https://www.jianshu.com/p/41e014f09117#comments">
+          <i class="iconfont ic-list-comments"></i> 29
+</a>      <span><i class="iconfont ic-list-like"></i> 35</span>
+        <span><i class="iconfont ic-list-money"></i> 1</span>
+    </div>
+  </div>
+</li>
+
+</ul>
+        <!-- 文章列表模块 -->
+      </div>
+        <a data-page="3" href="https://www.jianshu.com/" class="load-more">阅读更多</a>
+    </div>
+    
+    
+    
+    <div class="col-xs-7 col-xs-offset-1 aside">
+    
+      <div class="board">
+          <a target="_blank" href="https://www.jianshu.com/recommendations/notes?category_id=56&amp;utm_medium=index-banner-s&amp;utm_source=desktop">
+            <img src="/res/images/banner-s-1-b8ff9ec59f72ea88ecc8c42956f41f78.png" alt="Banner s 1">
+         </a>
+        <a target="_blank" href="https://www.jianshu.com/trending/weekly?utm_medium=index-banner-s&amp;utm_source=desktop"><img src="/res/images/banner-s-3-7123fd94750759acf7eca05b871e9d17.png" alt="Banner s 3"></a>
+        <a target="_blank" href="https://www.jianshu.com/trending/monthly?utm_medium=index-banner-s&amp;utm_source=desktop"><img src="/res/images/banner-s-4-b70da70d679593510ac93a172dfbaeaa.png" alt="Banner s 4"></a>
+      </div>
+
+      <!-- 推荐作者 -->
+      <div class="recommended-authors"><div class="title"><span>推荐作者</span> <a class="page-change"><i class="iconfont ic-search-change" style="transform: rotate(0deg);"></i>
+      换一批
+    </a></div> <ul class="list"><li><a href="https://www.jianshu.com/u/55b597320c4e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="avatar"><img src="/res/images/6ac158c7-6af2-415a-886e-2868dd256783.png"></a> <a class="follow" state="0"><i class="iconfont ic-follow"></i>关注
+</a> <a href="https://www.jianshu.com/u/55b597320c4e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="name">
+        简书出版
+      </a> <p>
+        写了319k字 · 25.1k喜欢
+      </p></li><li><a href="https://www.jianshu.com/u/4062aaeba322?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="avatar"><img src="/res/images/f64f5ef0-def0-4b26-beb3-b9d88f060ba0.jpg"></a> <a class="follow" state="0"><i class="iconfont ic-follow"></i>关注
+</a> <a href="https://www.jianshu.com/u/4062aaeba322?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="name">
+        念远怀人
+      </a> <p>
+        写了364.1k字 · 2.8k喜欢
+      </p></li><li><a href="https://www.jianshu.com/u/7406f22f461e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="avatar"><img src="/res/images/f1cdcde073ec.jpg"></a> <a class="follow" state="0"><i class="iconfont ic-follow"></i>关注
+</a> <a href="https://www.jianshu.com/u/7406f22f461e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="name">
+        雨落荒原
+      </a> <p>
+        写了141.6k字 · 939喜欢
+      </p></li><li><a href="https://www.jianshu.com/u/0044a6881d5e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="avatar"><img src="/res/images/9de8d40a-3d8f-4664-b4c6-d183907067d0.jpg"></a> <a class="follow" state="0"><i class="iconfont ic-follow"></i>关注
+</a> <a href="https://www.jianshu.com/u/0044a6881d5e?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="name">
+        儿童性教育老师胡佳威
+      </a> <p>
+        写了61.5k字 · 136喜欢
+      </p></li><li><a href="https://www.jianshu.com/u/b3b2c03354f3?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="avatar"><img src="/res/images/a6f78504-2c93-4d82-8b0d-034f8edfcc11.jpeg"></a> <a class="follow" state="0"><i class="iconfont ic-follow"></i>关注
+</a> <a href="https://www.jianshu.com/u/b3b2c03354f3?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="name">
+        驴光掠影
+      </a> <p>
+        写了372.6k字 · 5.8k喜欢
+      </p></li></ul> <a href="https://www.jianshu.com/recommendations/users?utm_source=desktop&amp;utm_medium=index-users" target="_blank" class="find-more">
+    查看全部<i class="iconfont ic-link"></i></a></div>
+    </div>
+  </div>
+</div>
+<div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <!----></ul></div>
+
+<footer th:replace="~{common::footer}" class="container">
+</footer>
+</body>
+    <script type="text/javascript" src="/res/libs/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/res/js/common.js"></script>
+</html>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.UserInfoPO">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, username, password, display_name, mobile, email, qq, sex, create_date, status, 
+    avatar, signature, website
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_info
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.UserInfoPO">
+    insert into user_info (user_id, username, password, 
+      display_name, mobile, email, 
+      qq, sex, create_date, 
+      status, avatar, signature, 
+      website)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{displayName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
+      #{website,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.UserInfoPO">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="displayName != null">
+        display_name,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="website != null">
+        website,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="displayName != null">
+        #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.UserInfoPO">
+    update user_info
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="displayName != null">
+        display_name = #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        website = #{website,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.UserInfoPO">
+    update user_info
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      display_name = #{displayName,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      website = #{website,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <!-- 根据用户名查询 -->
+  <select id="findByUsername" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where username=#{username,jdbcType=VARCHAR}
+  </select>
+</mapper>
