@@ -21,6 +21,12 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 @Configuration
 public class ShiroConfig {
+
+	/**
+	 *  shiro配置   test 分支 修改
+	 * @param securityManager
+	 * @return
+	 */
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();

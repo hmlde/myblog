@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.SloganInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.SloganInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ymd" jdbcType="VARCHAR" property="ymd" />
+    <result column="slogan" jdbcType="VARCHAR" property="slogan" />
+    <result column="week_day" jdbcType="VARCHAR" property="weekDay" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ymd, slogan,week_day
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from slogan_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from slogan_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.SloganInfo">
+    insert into slogan_info (id, ymd, slogan
+      )
+    values (#{id,jdbcType=BIGINT}, #{ymd,jdbcType=VARCHAR}, #{slogan,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.SloganInfo">
+    insert into slogan_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ymd != null">
+        ymd,
+      </if>
+      <if test="slogan != null">
+        slogan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ymd != null">
+        #{ymd,jdbcType=VARCHAR},
+      </if>
+      <if test="slogan != null">
+        #{slogan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.SloganInfo">
+    update slogan_info
+    <set>
+      <if test="ymd != null">
+        ymd = #{ymd,jdbcType=VARCHAR},
+      </if>
+      <if test="slogan != null">
+        slogan = #{slogan,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.SloganInfo">
+    update slogan_info
+    set ymd = #{ymd,jdbcType=VARCHAR},
+      slogan = #{slogan,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectTodaySlogan" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from slogan_info
+    where ymd=#{ymd,jdbcType=VARCHAR}
+  </select>
+</mapper>

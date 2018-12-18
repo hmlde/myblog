@@ -5,6 +5,8 @@ import com.hanmlet.myblog.dto.ArticleDTO;
 import com.hanmlet.myblog.form.ArticleQueryForm;
 import com.hanmlet.myblog.po.ArticlePO;
 
+import java.io.IOException;
+
 public interface IArticleService {
 
 	int saveOrUpdate(ArticlePO articlePO);
@@ -13,7 +15,7 @@ public interface IArticleService {
 
 	Page<ArticleDTO> listPage(ArticleQueryForm queryForm);
 
-	ArticlePO select(long id);
+	ArticleDTO select(long id);
 
 	int countByAuthor(String author);
 }

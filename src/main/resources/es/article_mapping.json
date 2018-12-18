@@ -30,7 +30,6 @@
       "analyzer": "ik_filter_word",
       "search_analyzer": "ik_smart"
     },
-
     "favourNum": {
       "type": "long"
     },
@@ -47,6 +46,9 @@
       "type": "long"
     },
     "status":{
+      "type": "keyword"
+    },
+    "img":{
       "type": "keyword"
     },
     "summary": {

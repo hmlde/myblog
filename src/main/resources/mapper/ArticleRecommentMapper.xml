@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.ArticleRecommentMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.ArticleRecomment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="article_id" jdbcType="VARCHAR" property="articleId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, article_id, reason, img, title, sort_no, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from article_recomment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from article_recomment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.ArticleRecomment">
+    insert into article_recomment (id, article_id, reason, 
+      img, title, sort_no, 
+      status)
+    values (#{id,jdbcType=BIGINT}, #{articleId,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.ArticleRecomment">
+    insert into article_recomment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.ArticleRecomment">
+    update article_recomment
+    <set>
+      <if test="articleId != null">
+        article_id = #{articleId,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.ArticleRecomment">
+    update article_recomment
+    set article_id = #{articleId,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryAtricaleOfReco" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from article_recomment
+    order by sort_no
+  </select>
+</mapper>

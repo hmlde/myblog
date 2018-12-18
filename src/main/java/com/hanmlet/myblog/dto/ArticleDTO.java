@@ -41,4 +41,6 @@ public class ArticleDTO {
 
 	private String summary;
 
+	private String img;
+
 }

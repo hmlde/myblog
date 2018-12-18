@@ -6,9 +6,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ArticleQueryForm extends BasePageForm {
-
-	private String content;
-
 	private String searchKey;
 
 	private String author;

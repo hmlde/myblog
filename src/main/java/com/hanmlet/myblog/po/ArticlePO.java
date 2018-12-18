@@ -18,6 +18,8 @@ public class ArticlePO {
 
 	private String content;
 
+	private String img;
+
 	private String articleTitle;
 
 	private String articleKeyword;

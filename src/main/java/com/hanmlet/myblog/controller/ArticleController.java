@@ -2,7 +2,9 @@ package com.hanmlet.myblog.controller;
 
 import java.util.List;
 
+import com.hanmlet.myblog.dto.ArticleDTO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,10 +98,9 @@ public class ArticleController extends BaseController {
 		articleService.saveOrUpdate(po);
 		return "redirect:detail/" + po.getArticleId();
 	}
-
 	@RequestMapping("detail/{id}")
 	public String detail(@PathVariable("id") long id, Model model) {
-		ArticlePO po = articleService.select(id);
+		ArticleDTO po = articleService.select(id);
 		String userId = po.getAuthor();
 		UserInfoPO user = userInfoService.findByUserId(userId);
 		model.addAttribute("article", po);
@@ -118,7 +119,7 @@ public class ArticleController extends BaseController {
 		if (cuser == null || !String.valueOf(cuser.getUserId()).equals(userId)) {
 			ArticlePO newpo = new ArticlePO();
 			newpo.setArticleId(po.getArticleId());
-			newpo.setReadNum(po.getReadNum() + 1);
+			newpo.setReadNum(null2Zero(po.getReadNum()) + 1);
 			articleService.saveOrUpdate(newpo);
 		}
 
@@ -135,7 +136,11 @@ public class ArticleController extends BaseController {
 
 		// 查询评论
 		model.addAttribute("commentList", queryComment(id));
-		return "articleDetail";
+		return "content";
+	}
+
+	private int null2Zero(Integer num){
+		return num==null?0:num;
 	}
 
 	@RequiresRoles({ "admin" })

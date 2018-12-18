@@ -3,12 +3,17 @@ package com.hanmlet.myblog.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.hanmlet.myblog.po.ArticleRecomment;
+import com.hanmlet.myblog.po.SloganInfo;
+import com.hanmlet.myblog.service.IArticleRecommentService;
+import com.hanmlet.myblog.service.ISloganInfoService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,6 +23,9 @@ import com.hanmlet.myblog.form.ArticleQueryForm;
 import com.hanmlet.myblog.form.RegisterForm;
 import com.hanmlet.myblog.service.IArticleService;
 import com.hanmlet.myblog.service.IUserInfoService;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -26,6 +34,11 @@ public class IndexController {
 	private IUserInfoService userInfoService;
 	@Autowired
 	private IArticleService articleService;
+	@Autowired
+	private IArticleRecommentService articleRecommentService;
+
+	@Autowired
+	private ISloganInfoService sloganInfoService;
 
 	@RequestMapping("/")
 	public String home(HttpSession session, Model model) {
@@ -33,6 +46,10 @@ public class IndexController {
 		ArticleQueryForm queryForm = new ArticleQueryForm();
 		Page<ArticleDTO> page = articleService.listPage(queryForm);
 		model.addAttribute("articlePage", page);
+
+		List<ArticleRecomment> recomments = articleRecommentService.queryAtricaleOfReco();
+
+		model.addAttribute("recomments", recomments);
 		return "index";
 	}
 
@@ -42,6 +59,12 @@ public class IndexController {
 		model.addAttribute("articlePage", page);
 		model.addAttribute("searchKey", queryForm.getSearchKey());
 		return "home";
+	}
+
+	@GetMapping("todaySlogan")
+	@ResponseBody
+	public SloganInfo selectTodaySloganInfo(){
+		 return sloganInfoService.selectTodaySlogan();
 	}
 
 	@RequestMapping("register")
