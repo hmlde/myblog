@@ -28,26 +28,35 @@
           </div>
           <!-- /.box-header -->
           <!-- form start -->
-          <form action="/article/save" id="articleForm" method="post">
-            <div class="box-body">
+          <form action="/article/save" id="articleForm" method="post" enctype="multipart/form-data">
+              <div class="box-body">
                   <div class="form-group">
-              <input class="form-control" name="articleTitle" placeholder="标题">
-            </div>
-            <div class="form-group">
-              <textarea rows="4" cols="20" class="form-control" name="summary" placeholder="摘要"></textarea> 
-            </div>
-            <div class="form-group">
-                <input name="content" type="hidden">  
-                <div id="editor"></div>
-            </div>
-            <div class="form-group">
-              <div class="btn btn-default btn-file">
-                <i class="fa fa-paperclip"></i> 上传附件
-                <input type="file" name="attachment">
+                      <input class="form-control" name="articleTitle" placeholder="标题">
+                  </div>
+                  <div class="form-group">
+                      <div class="btn btn-default btn-file">
+                          <i class="fa fa-paperclip"></i> 缩略图
+                          <input type="file" name="imgFile" id="imgFile">
+                      </div>
+                      <img src="" id="mImg" style="width: 200px">
+                  </div>
+
+                  <div class="form-group">
+                      <textarea rows="4" cols="20" class="form-control" name="summary" placeholder="摘要"></textarea>
+                  </div>
+
+                  <div class="form-group">
+                      <input name="content" type="hidden">
+                      <div id="editor"></div>
+                  </div>
+                  <div class="form-group">
+                      <div class="btn btn-default btn-file">
+                          <i class="fa fa-paperclip"></i> 上传附件
+                          <input type="file" name="attachment">
+                      </div>
+                      <p class="help-block">最大. 32MB</p>
+                  </div>
               </div>
-              <p class="help-block">最大. 32MB</p>
-            </div>
-            </div>
             <!-- /.box-body -->
             <div class="box-footer">
               <button type="button" data-action="save" class="btn btn-primary pull-right " style="margin-left: 20px;">保存</button>
@@ -94,6 +103,31 @@
         		   $("#articleForm").submit();
               });
         });
+
+    document.getElementById('imgFile').onchange = function (ev) {
+        //判断 FileReader 是否被浏览器所支持
+        if (!window.FileReader) return;
+
+        console.log(ev);
+
+        var file = ev.target.files[0];
+
+        if(!file.type.match('image/*')){
+            alert('上传的图片必修是png,gif,jpg格式的！');
+            ev.target.value = ""; //显示文件的值赋值为空
+            return;
+        }
+
+        var reader = new FileReader();  // 创建FileReader对象
+
+        reader.readAsDataURL(file); // 读取file对象，读取完毕后会返回result 图片base64格式的结果
+
+        reader.onload = function(e){
+            document.getElementById('mImg').src = e.target.result;
+        }
+
+    }
+
     </script>
 </body>
 </html>

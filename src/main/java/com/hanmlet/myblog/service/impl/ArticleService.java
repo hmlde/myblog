@@ -123,18 +123,14 @@ public class ArticleService extends BaseService implements IArticleService {
 	@Override
 	@Transactional
 	public int saveOrUpdate(ArticlePO articlePO) {
-		ArticlePO dbPo = new ArticlePO();
 		if (articlePO.getArticleId() == null) {
 			long id = this.generateId();
 			articlePO.setArticleId(id);
-			BeanUtils.copyProperties(articlePO, dbPo);
-			dbPo.setContent(null);
-			articleMapper.insertSelective(dbPo);
+			articleMapper.insertSelective(articlePO);
 		} else {
-			BeanUtils.copyProperties(articlePO, dbPo);
-			dbPo.setContent(null);
-			articleMapper.updateByPrimaryKey(dbPo);
+			articleMapper.updateByPrimaryKeySelective(articlePO);
 		}
+		articlePO = articleMapper.selectByPrimaryKey(articlePO.getArticleId());
 		sync2Es(articlePO);
 		return 1;
 	}
@@ -144,29 +140,28 @@ public class ArticleService extends BaseService implements IArticleService {
 	 * @param po
 	 */
 	private void sync2Es(ArticlePO po){
-		Map<String, Object> data = new HashMap<>();
-		BeanMap bm = BeanMap.create(po);
-		for(Object key:bm.keySet() ){
-			if(bm.get(key)!=null){
-				data.put((String)key,bm.get(key));
-			}
-		}
-		/*data.put("author", po.getAuthor());
+		Map<String,Object> data = new HashMap<>();
+		data.put("articleId",po.getArticleId());
+		data.put("author", po.getAuthor());
 		data.put("articleKeyword", po.getArticleKeyword());
 		data.put("img", po.getImg());
 		data.put("status", po.getStatus());
 		data.put("content",po.getContent());
 		data.put("articleTitle", po.getArticleTitle());
-		data.put("readNum", po.getReadNum());
-		data.put("commentNum", po.getCommentNum());
-		data.put("favourNum", po.getFavourNum());
-		data.put("opposeNum", po.getOpposeNum());
+		data.put("readNum", null2Zero(po.getReadNum()));
+		data.put("commentNum", null2Zero(po.getCommentNum()));
+		data.put("favourNum",null2Zero( po.getFavourNum()));
+		data.put("opposeNum", null2Zero(po.getOpposeNum()));
 		data.put("updateDate", po.getUpdateDate());
-		data.put("supportNum", po.getSupportNum());
+		data.put("supportNum", null2Zero(po.getSupportNum()));
 		data.put("summary",po.getSummary());
 		data.put("createDate",po.getCreateDate());
-		data.put("articleTag",po.getArticleTag());*/
+		data.put("articleTag",po.getArticleTag());
 		esClientService.invokeAdd(EsClientService.INDEX_ARTICLE, po.getArticleId(), data);
+	}
+
+	private Integer null2Zero(Integer num){
+		return num==null?0:num;
 	}
 
 	@Override
@@ -204,6 +199,11 @@ public class ArticleService extends BaseService implements IArticleService {
 		ArticleDTO dto = new ArticleDTO();
 		BeanMap bm = BeanMap.create(dto);
 		bm.putAll(resource);
+		if(!StringUtils.isEmpty(dto.getAuthor())){
+			UserInfoPO po = userInfoService.findByUserId(dto.getAuthor());
+			dto.setDisplayName(po.getDisplayName());
+		}
+
 		return dto;
 	}
 

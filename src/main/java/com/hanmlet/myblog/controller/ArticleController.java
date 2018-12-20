@@ -1,15 +1,26 @@
 package com.hanmlet.myblog.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
-import com.hanmlet.myblog.dto.ArticleDTO;
+import com.hanmlet.myblog.common.store.MultiFileDataSource;
+import com.hanmlet.myblog.dto.*;
+import com.hanmlet.myblog.service.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hanmlet.myblog.base.BaseController;
 import com.hanmlet.myblog.common.util.DateUtil;
-import com.hanmlet.myblog.dto.BaseEntityDTO;
-import com.hanmlet.myblog.dto.CommentDTO;
-import com.hanmlet.myblog.dto.UserDTO;
 import com.hanmlet.myblog.form.CommentQueryForm;
 import com.hanmlet.myblog.po.ArticlePO;
 import com.hanmlet.myblog.po.CommentPO;
 import com.hanmlet.myblog.po.UserInfoPO;
-import com.hanmlet.myblog.service.IArticleService;
-import com.hanmlet.myblog.service.ICommentService;
-import com.hanmlet.myblog.service.IUserFollowService;
-import com.hanmlet.myblog.service.IUserInfoService;
 
 /**
  * 文章管理
@@ -51,6 +55,11 @@ public class ArticleController extends BaseController {
 
 	@Autowired
 	private ICommentService commentService;
+
+    @Autowired
+    private IStoreService storeService;
+
+    private final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
 	@RequiresAuthentication
 	@RequestMapping("edit")
@@ -93,11 +102,39 @@ public class ArticleController extends BaseController {
 	@PostMapping("save")
 	public String save(ArticlePO po) {
 		UserDTO user = currentUser();
-		po.setAuthor(String.valueOf(user.getUserId()));
+        try {
+            StoreDTO dto = storeService.save(new MultiFileDataSource(po.getImgFile()));
+            po.setImg(dto.getKey());
+        } catch (IOException e) {
+            logger.error("文章图片上传异常",e);
+        }
+        po.setAuthor(String.valueOf(user.getUserId()));
 		po.setUpdateDate(DateUtil.getCurrentLocalDateTimeString());
 		articleService.saveOrUpdate(po);
 		return "redirect:detail/" + po.getArticleId();
 	}
+
+    @GetMapping("/thumbnail")
+    public ResponseEntity<byte[]> avatar(String key) {
+
+        ResponseEntity<byte[]> response = null;
+        try {
+            StoreDTO dto = storeService.get(key);
+            HttpHeaders headers = new HttpHeaders();
+            String filename = new String(dto.getFileName().getBytes("gbk"), "iso8859-1");
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            headers.add("Content-Disposition", "attachment;filename=" + filename);
+            response = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(dto.getDataSource().getInputStream()),
+                    headers, HttpStatus.OK);
+        } catch (FileNotFoundException e) {
+            logger.error("获取文章缩略图异常",e);
+        } catch (IOException e) {
+			logger.error("获取文章缩略图异常",e);
+        }
+        return response;
+    }
+
+
 	@RequestMapping("detail/{id}")
 	public String detail(@PathVariable("id") long id, Model model) {
 		ArticleDTO po = articleService.select(id);

@@ -355,11 +355,12 @@ body, input, button, textarea, select {
 	text-decoration: none;
 }
 .news-img img {
-	width: 100%;
-	height: 100%;
+	/*width: 100%;
+	height: 100%;*/
 	padding: 0px;
-	margin: 0px;/*width:216px;
-  height:140px;*/
+	margin: 0px;
+	width:216px;
+    height:140px;
 }
 .news-info {
 	overflow: hidden;

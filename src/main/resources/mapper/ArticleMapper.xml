@@ -7,6 +7,7 @@
     <result column="create_date" jdbcType="VARCHAR" property="createDate" />
     <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
     <result column="article_tag" jdbcType="VARCHAR" property="articleTag" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
     <result column="article_keyword" jdbcType="VARCHAR" property="articleKeyword" />
@@ -19,7 +20,7 @@
     <result column="summary" jdbcType="VARCHAR" property="summary" />
   </resultMap>
   <sql id="Base_Column_List">
-    article_id, author, create_date, update_date, article_tag, content, article_title, 
+    article_id, author, create_date, update_date, article_tag,img, content, article_title,
     article_keyword, favour_num, read_num, support_num, comment_num, oppose_num, status, 
     summary
   </sql>
@@ -63,7 +64,10 @@
         update_date,
       </if>
       <if test="articleTag != null">
-        article_tag,
+      article_tag,
+    </if>
+      <if test="img != null">
+        img,
       </if>
       <if test="content != null">
         content,
@@ -112,6 +116,9 @@
       <if test="articleTag != null">
         #{articleTag,jdbcType=VARCHAR},
       </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -157,7 +164,10 @@
         update_date = #{updateDate,jdbcType=VARCHAR},
       </if>
       <if test="articleTag != null">
-        article_tag = #{articleTag,jdbcType=VARCHAR},
+      article_tag = #{articleTag,jdbcType=VARCHAR},
+    </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
