@@ -40,7 +40,7 @@ public class LocalStoreService extends BaseService implements IStoreService {
 			path.mkdirs();
 		}
 
-		String key = "/" + ymd + "/" + fileName;
+		String key = "/" + ymd + "/" + fileName+this.getPostfix(dataSource.getName());
 
 		String f = this.baseDir + key;
 		FileOutputStream fos = new FileOutputStream(f);
@@ -52,6 +52,18 @@ public class LocalStoreService extends BaseService implements IStoreService {
 		dto.setFileType(dataSource.getContentType());
 		storeInfoMapper.insertSelective(dto2Po(dto));
 		return dto;
+	}
+
+	private String getPostfix(String fileName){
+		 if(fileName == null){
+		 	return "";
+		 }
+		 int index = fileName.lastIndexOf(".");
+		 if(index>0){
+		 	return fileName.substring(index);
+		 }else{
+		 	return "";
+		 }
 	}
 
 	private StoreInfoPO dto2Po(StoreDTO dto) {
