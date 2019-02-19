@@ -4,9 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.hanmlet.myblog.po.ArticleRecomment;
+import com.hanmlet.myblog.po.BannerInfo;
 import com.hanmlet.myblog.po.SloganInfo;
-import com.hanmlet.myblog.service.IArticleRecommentService;
-import com.hanmlet.myblog.service.ISloganInfoService;
+import com.hanmlet.myblog.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -21,8 +21,6 @@ import com.github.pagehelper.Page;
 import com.hanmlet.myblog.dto.ArticleDTO;
 import com.hanmlet.myblog.form.ArticleQueryForm;
 import com.hanmlet.myblog.form.RegisterForm;
-import com.hanmlet.myblog.service.IArticleService;
-import com.hanmlet.myblog.service.IUserInfoService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -40,6 +38,9 @@ public class IndexController {
 	@Autowired
 	private ISloganInfoService sloganInfoService;
 
+	@Autowired
+	private IBannerInfoService bannerInfoService;
+
 	@RequestMapping("/")
 	public String home(HttpSession session, Model model) {
 
@@ -48,8 +49,10 @@ public class IndexController {
 		model.addAttribute("articlePage", page);
 
 		List<ArticleRecomment> recomments = articleRecommentService.queryAtricaleOfReco();
-
 		model.addAttribute("recomments", recomments);
+
+		List<BannerInfo> bannerInfos = bannerInfoService.queryAllBanners();
+		model.addAttribute("banners", bannerInfos);
 		return "index";
 	}
 
@@ -95,6 +98,8 @@ public class IndexController {
 		model.addAttribute("error", error);
 		return "login";
 	}
+
+
 
 	@PostMapping("register")
 	public String registerForm(RegisterForm form) {

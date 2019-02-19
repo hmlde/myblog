@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanmlet.myblog.mapper.BannerInfoMapper">
+  <resultMap id="BaseResultMap" type="com.hanmlet.myblog.po.BannerInfo">
+    <id column="banner_id" jdbcType="BIGINT" property="bannerId" />
+    <result column="banner_name" jdbcType="VARCHAR" property="bannerName" />
+    <result column="banner_img" jdbcType="VARCHAR" property="bannerImg" />
+    <result column="banner_url" jdbcType="VARCHAR" property="bannerUrl" />
+    <result column="banner_desc" jdbcType="VARCHAR" property="bannerDesc" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    banner_id, banner_name, banner_img, banner_url, banner_desc, sort_no, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from banner_info
+    where banner_id = #{bannerId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from banner_info
+    where banner_id = #{bannerId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hanmlet.myblog.po.BannerInfo">
+    insert into banner_info (banner_id, banner_name, banner_img, 
+      banner_url, banner_desc, sort_no, 
+      status)
+    values (#{bannerId,jdbcType=BIGINT}, #{bannerName,jdbcType=VARCHAR}, #{bannerImg,jdbcType=VARCHAR}, 
+      #{bannerUrl,jdbcType=VARCHAR}, #{bannerDesc,jdbcType=VARCHAR}, #{sortNo,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.BannerInfo">
+    insert into banner_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        banner_id,
+      </if>
+      <if test="bannerName != null">
+        banner_name,
+      </if>
+      <if test="bannerImg != null">
+        banner_img,
+      </if>
+      <if test="bannerUrl != null">
+        banner_url,
+      </if>
+      <if test="bannerDesc != null">
+        banner_desc,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bannerId != null">
+        #{bannerId,jdbcType=BIGINT},
+      </if>
+      <if test="bannerName != null">
+        #{bannerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerImg != null">
+        #{bannerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerUrl != null">
+        #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerDesc != null">
+        #{bannerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.BannerInfo">
+    update banner_info
+    <set>
+      <if test="bannerName != null">
+        banner_name = #{bannerName,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerImg != null">
+        banner_img = #{bannerImg,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerUrl != null">
+        banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerDesc != null">
+        banner_desc = #{bannerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where banner_id = #{bannerId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanmlet.myblog.po.BannerInfo">
+    update banner_info
+    set banner_name = #{bannerName,jdbcType=VARCHAR},
+      banner_img = #{bannerImg,jdbcType=VARCHAR},
+      banner_url = #{bannerUrl,jdbcType=VARCHAR},
+      banner_desc = #{bannerDesc,jdbcType=VARCHAR},
+      sort_no = #{sortNo,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where banner_id = #{bannerId,jdbcType=BIGINT}
+  </update>
+
+  <select id="queryAllBanners" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from banner_info
+    where status=1 order by sort_no
+  </select>
+</mapper>

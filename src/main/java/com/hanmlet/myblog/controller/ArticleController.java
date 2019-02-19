@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,21 +68,27 @@ public class ArticleController extends BaseController {
 		return "articleEdit";
 	}
 
-	@RequiresUser
+	/**
+	 * 可匿名评论
+	 * @param comment
+	 * @return
+	 */
 	@RequestMapping("addComment")
-	@ResponseBody()
+	@ResponseBody
 	public BaseEntityDTO<Integer> addComment(CommentPO comment) {
 		UserDTO dto = this.currentUser();
-		comment.setCreator(String.valueOf(dto.getUserId()));
+		if(dto!=null){
+			comment.setCreator(String.valueOf(dto.getUserId()));
+		}
 		comment.setCreateDate(DateUtil.getCurrentLocalDateTimeString());
 		int i = commentService.addComment(comment);
 		return this.ajaxSuccessReturn(i);
 	}
 
-	@RequestMapping("{id}/comment")
-	public String listArticleComment(@PathVariable("id") long articleId, Model model) {
-		model.addAttribute("commentList", queryComment(articleId));
-		return "comment";
+	@GetMapping("{id}/comment")
+	@ResponseBody
+	public List<CommentDTO> listArticleComment(@PathVariable("id") long articleId) {
+		return queryComment(articleId);
 	}
 
 	private List<CommentDTO> queryComment(long articleId) {
@@ -90,6 +97,12 @@ public class ArticleController extends BaseController {
 		commentQuery.setArticleId(articleId);
 		List<CommentDTO> commentList = commentService.listComment(commentQuery);
 		for (CommentDTO dto : commentList) {
+			String userId= dto.getCreator();
+			if(!StringUtils.isEmpty(userId)){
+				UserInfoPO userInfoPO = userInfoService.findByUserId(userId);
+				dto.setDisplayName(userInfoPO.getDisplayName());
+			}
+
 			Long commentId = dto.getCommentId();
 			commentQuery.setRefId(commentId);
 			List<CommentDTO> subList = commentService.listComment(commentQuery);

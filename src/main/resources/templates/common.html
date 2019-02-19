@@ -6,7 +6,7 @@
    <nav  th:fragment="nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="width-limit">
     <!-- 左上方 Logo -->
-    <a class="logo" href="/"> <span style="color:#ea6f5a;font-weight: 500;font-size: 34px;margin-left: 20px">寒站</span></a>
+    <a class="logo" href="/"> <span style="color:#ea6f5a;font-weight: 500;font-size: 34px;margin-left: 20px">流沙</span></a>
 
     <!-- 右上角 -->
       <!-- 未登录显示登录/注册/写文章 -->
@@ -105,7 +105,11 @@
                <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
                <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
            </ul>
-           <div class="feeds"> <a class="feed feed-xlweibo" href="javascript:void(0)" target="_blank"><i></i>新浪微博</a> <a class="feed feed-txweibo" href="javascript:void(0)" target="_blank"><i></i>腾讯微博</a> <a class="feed feed-rss" href="" target="_blank"><i></i>订阅本站</a> <a class="feed feed-weixin" data-toggle="popover" data-trigger="hover" title="微信扫一扫" data-html="true" data-content="<img src='images/weixin.jpg' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a> </div>
+           <div class="feeds">
+               <a class="feed feed-xlweibo" shiro:guest="" href="/login"><i></i>登录</a>
+               <a class="feed feed-txweibo" shiro:guest="" href="/register"><i></i>注册</a>
+               <a class="feed feed-rss" shiro:authenticated="true"  th:href="@{/profile/users/{id}(id=${session.cuser.userId})}"><i></i><span th:text="${session.cuser.displayName}"></span></a>
+           </div>
            <div class="wall"><a href="readerWall.html" target="_blank">读者墙</a> | <a href="tags.html" target="_blank">标签云</a></div>
        </div>
        <!--/超小屏幕不显示-->
@@ -115,10 +119,8 @@
            </div>
            <div id="header-xs-menu" class="navbar-collapse collapse">
                <ul class="nav navbar-nav header-xs-nav">
-                   <li class="active"><a href="index.html"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
+                   <li class="active"><a href="/"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
                    <li><a href=""><span class="glyphicon glyphicon-erase"></span>网站前端</a></li>
-                   <li><a href=""><span class="glyphicon glyphicon-inbox"></span>后端技术</a></li>
-                   <li><a href=""><span class="glyphicon glyphicon-globe"></span>管理系统</a></li>
                    <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>关于我们</a></li>
                    <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>友情链接</a></li>
                </ul>
@@ -144,10 +146,10 @@
 
 
    <!--最新评论-->
-   <div class="sidebar-block comment" th:fragment="newcomment">
-       <h2 class="title"><strong>最新评论</strong></h2>
+   <div class="sidebar-block comment" style="display: none" th:fragment="newcomment">
+      <!-- <h2 class="title"><strong>最新评论</strong></h2>
        <ul>
-          <!-- <li data-toggle="tooltip" data-placement="top" title="站长的评论"><a target="_blank" href=""><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>技术博客站长</strong> (2015-10-18) 说：<br />
+          &lt;!&ndash; <li data-toggle="tooltip" data-placement="top" title="站长的评论"><a target="_blank" href=""><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>技术博客站长</strong> (2015-10-18) 说：<br />
           欢迎来到个人技术博客，在这里可以看到网站前端和后端的技术等 ...</span></a></li>
            <li data-toggle="tooltip" data-placement="top" title="读者墙上的评论"><a target="_blank" href=""><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>技术博客站长</strong> (2015-10-18) 说：<br />
           欢迎来到个人技术博客，在这里可以看到网站前端和后端的技术等 ...</span></a></li>
@@ -156,8 +158,8 @@
            <li data-toggle="tooltip" data-placement="top" title="个人技术博客的SHORTCUT和ICON图标...的评论"><a target="_blank" href=""><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>技术博客站长</strong> (2015-10-18) 说：<br />
           欢迎来到个人技术博客，在这里可以看到网站前端和后端的技术等 ...</span></a></li>
            <li data-toggle="tooltip" data-placement="top" title="个人技术博客的SHORTCUT和ICON图标...的评论"><a target="_blank" href=""><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>技术博客站长</strong> (2015-10-18) 说：<br />
-          欢迎来到个人技术博客，在这里可以看到网站前端和后端的技术等 ...</span></a></li>-->
-       </ul>
+          欢迎来到个人技术博客，在这里可以看到网站前端和后端的技术等 ...</span></a></li>&ndash;&gt;
+       </ul>-->
    </div>
 
    <!--热门推荐-->

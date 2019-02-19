@@ -35,12 +35,12 @@
       display_name, mobile, email, 
       qq, sex, create_date, 
       status, avatar, signature, 
-      website)
+      website,create_time)
     values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{displayName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{qq,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, 
-      #{website,jdbcType=VARCHAR})
+      #{website,jdbcType=VARCHAR},now())
   </insert>
   <insert id="insertSelective" parameterType="com.hanmlet.myblog.po.UserInfoPO">
     insert into user_info
@@ -84,6 +84,7 @@
       <if test="website != null">
         website,
       </if>
+      create_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -125,6 +126,7 @@
       <if test="website != null">
         #{website,jdbcType=VARCHAR},
       </if>
+      now()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hanmlet.myblog.po.UserInfoPO">
@@ -191,5 +193,6 @@
     <include refid="Base_Column_List" />
     from user_info
     where username=#{username,jdbcType=VARCHAR}
+          or email =#{username,jdbcType=VARCHAR}
   </select>
 </mapper>

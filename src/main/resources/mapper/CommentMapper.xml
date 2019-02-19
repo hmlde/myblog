@@ -134,11 +134,10 @@
   <select id="listCommentPg" resultMap="withUserResultMap">
       select 
      <include refid="withUser_Column_List" />  
-     from comment c,user_info u 
+     from comment c left join user_info u on c.creator=u.user_id
     <where>
-       c.creator=u.user_id
       <if test="refId != null">
-       and c.ref_id = #{refId,jdbcType=BIGINT}
+        c.ref_id = #{refId,jdbcType=BIGINT}
       </if>
       <if test="articleId != null">
        and c.article_id = #{articleId,jdbcType=BIGINT}

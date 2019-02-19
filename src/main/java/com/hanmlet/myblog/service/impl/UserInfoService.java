@@ -58,6 +58,9 @@ public class UserInfoService extends BaseService implements IUserInfoService {
 	@Override
 	public StoreDTO getAvatar(String userId, int size) throws IOException {
 		UserInfoPO userinfo = this.findByUserId(userId);
+		if(userinfo == null ){
+			return getDefaultAvatar(size);
+		}
 		String avatar = userinfo.getAvatar();
 		if (StringUtils.isEmpty(avatar)) {
 			// 返回默认头像

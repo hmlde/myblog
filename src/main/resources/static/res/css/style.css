@@ -798,6 +798,7 @@ textarea::-webkit-scrollbar-thumb {
 	margin:5px 0px;
 	cursor:pointer;
 	padding:5px 0;
+	height: 65px;
 }
 .content .comment .comment-content ul li:hover{
 	background: rgba(223,223,223,0.20);
